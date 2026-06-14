@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.jobmanager.entity.Job;
 import com.example.jobmanager.repository.JobRepository;
@@ -22,11 +23,26 @@ public class JobController {
     }
 
     @GetMapping("/jobs")
-    public String index(Model model) {
-        model.addAttribute("jobs", jobRepository.findAll());
+    public String index(
+            @RequestParam(required = false)
+            String keyword,
+            Model model) {
+
+        if (keyword == null || keyword.isBlank()) {
+            model.addAttribute("jobs",
+                    jobRepository.findAll());
+        } else {
+            model.addAttribute("jobs",
+                    jobRepository
+                    .findByCompanyNameContaining(keyword));
+        }
+
+        model.addAttribute("keyword", keyword);
+
         return "jobs/index";
-        
-    }@GetMapping("/jobs/new")
+    }
+    
+    @GetMapping("/jobs/new")
     public String createForm(Model model) {
         model.addAttribute("job", new Job());
         return "jobs/new";
