@@ -3,50 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>求人一覧</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>求人一覧</h1>
-	
-	<form action="/jobs" method="get">
+<div class="container mt-4">
 
-	    <input type="text"
-	           name="keyword"
-	           th:value="${keyword}">
+    <h1 class="mb-4">求人一覧</h1>
 
-	    <button type="submit">
-	        検索
-	    </button>
+    <p>
+        <a class="btn btn-primary" th:href="@{/jobs/new}">求人登録</a>
+    </p>
 
-	</form>
-	
-	<p>
-	    <a href="/jobs/new">求人登録</a>
-	</p>
+    <form th:action="@{/jobs}" method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="keyword" th:value="${keyword}" class="form-control" placeholder="企業名で検索">
+            <button type="submit" class="btn btn-outline-primary">検索</button>
+        </div>
+    </form>
 
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>企業名</th>
-            <th>職種</th>
-            <th>勤務地</th>
-            <th>雇用形態</th>
-            <th>給与</th>
+    <table class="table table-striped table-bordered">
+		<tr>
+		    <th>ID</th>
+		    <th>企業名</th>
+		    <th>職種</th>
+		    <th>勤務地</th>
+		    <th>雇用形態</th>
+		    <th>給与</th>
 			<th>詳細</th>
-        </tr>
+			<th>編集</th>
+			<th>削除</th>
+		</tr>
 
-        <tr th:each="job : ${jobs}">
-            <td th:text="${job.id}"></td>
-            <td th:text="${job.companyName}"></td>
-            <td th:text="${job.jobTitle}"></td>
-            <td th:text="${job.location}"></td>
-            <td th:text="${job.employmentType}"></td>
-            <td th:text="${job.salary}"></td>
+		<tr th:each="job : ${jobs}">
+		    <td th:text="${job.id}"></td>
+		    <td th:text="${job.companyName}"></td>
+		    <td th:text="${job.jobTitle}"></td>
+		    <td th:text="${job.location}"></td>
+		    <td th:text="${job.employmentType}"></td>
+		    <td th:text="${job.salary}"></td>
 			<td>
-				<a th:href="@{/jobs/{id}(id=${job.id})}">
+				<a class="btn btn-sm btn-outline-secondary"
+				   th:href="@{/jobs/{id}(id=${job.id})}">
 				    詳細
 				</a>
 			</td>
-        </tr>
+			<td>
+				<a class="btn btn-warning"
+				   th:href="@{/jobs/{id}/edit(id=${job.id})}">
+				    編集
+				</a>
+			</td>
+			<td>
+				<form th:action="@{/jobs/{id}/delete(id=${job.id})}"
+				      method="post">
+
+				    <button type="submit"
+				            class="btn btn-danger"
+				            onclick="return confirm('本当に削除しますか？');">
+				        削除
+				    </button>
+
+				</form>
+			</td>
+		</tr>
     </table>
+
+</div>
 </body>
 </html>
