@@ -1,7 +1,10 @@
 package com.example.jobmanager.controller;
 
+import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,22 +32,12 @@ public class JobController {
         return "jobs/new";
     }
     
-    @PostMapping("/jobs")
-    public String create(@ModelAttribute Job job) {
-
-        jobRepository.save(job);
-
-        return "redirect:/jobs";
-    }
-    
     @GetMapping("/jobs/{id}")
     public String show(@PathVariable Long id, Model model) {
-
         Job job = jobRepository.findById(id)
                 .orElseThrow();
 
         model.addAttribute("job", job);
-
         return "jobs/show";
     }
     
@@ -58,19 +51,35 @@ public class JobController {
 
         return "jobs/edit";
     }
+  
+    @PostMapping("/jobs")
+    public String create(@Valid @ModelAttribute Job job,
+                         BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "jobs/new";
+        }
+
+        jobRepository.save(job);
+        return "redirect:/jobs";
+    }
     
     @PostMapping("/jobs/{id}")
-    public String update(
-            @PathVariable Long id,
-            @ModelAttribute Job job) {
+    public String update(@PathVariable Long id,
+                         @Valid @ModelAttribute Job job,
+                         BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "jobs/edit";
+        }
 
         job.setId(id);
-
         jobRepository.save(job);
 
         return "redirect:/jobs/" + id;
     }
     
+
     @PostMapping("/jobs/{id}/delete")
     public String delete(@PathVariable Long id) {
 

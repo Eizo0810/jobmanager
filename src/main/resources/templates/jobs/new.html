@@ -13,31 +13,40 @@
     <div>
         <label>企業名</label>
         <input type="text" th:field="*{companyName}">
+		<div th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></div>
     </div>
 
     <div>
         <label>職種</label>
         <input type="text" th:field="*{jobTitle}">
+		<div th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></div>
     </div>
 
     <div>
         <label>勤務地</label>
         <input type="text" th:field="*{location}">
+		<div th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></div>
     </div>
 
     <div>
         <label>雇用形態</label>
         <input type="text" th:field="*{employmentType}">
+		<div th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></div>
     </div>
 
     <div>
         <label>給与</label>
         <input type="text" th:field="*{salary}">
+		<div th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></div>
     </div>
 
     <button type="submit">登録</button>
 
 </form>
+
+<p>
+    <a href="/jobs">一覧へ戻る</a>
+</p>
 
 </body>
 </html>

@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Job {
@@ -14,11 +15,21 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "企業名を入力してください")
     private String companyName;
+
+    @NotBlank(message = "職種を入力してください")
     private String jobTitle;
+
+    @NotBlank(message = "勤務地を入力してください")
     private String location;
+
+    @NotBlank(message = "雇用形態を入力してください")
     private String employmentType;
+
+    @NotBlank(message = "給与を入力してください")
     private String salary;
+    
     private String description;
     private String requiredSkills;
     private LocalDate postedDate;
