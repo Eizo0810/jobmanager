@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>求人登録</title>
+</head>
+<body>
+
+<h1>求人登録</h1>
+
+<form th:action="@{/jobs}" th:object="${job}" method="post">
+
+    <div>
+        <label>企業名</label>
+        <input type="text" th:field="*{companyName}">
+    </div>
+
+    <div>
+        <label>職種</label>
+        <input type="text" th:field="*{jobTitle}">
+    </div>
+
+    <div>
+        <label>勤務地</label>
+        <input type="text" th:field="*{location}">
+    </div>
+
+    <div>
+        <label>雇用形態</label>
+        <input type="text" th:field="*{employmentType}">
+    </div>
+
+    <div>
+        <label>給与</label>
+        <input type="text" th:field="*{salary}">
+    </div>
+
+    <button type="submit">登録</button>
+
+</form>
+
+</body>
+</html>

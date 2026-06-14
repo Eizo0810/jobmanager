@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>求人一覧</title>
+</head>
+<body>
+    <h1>求人一覧</h1>
+	
+	<p>
+	    <a href="/jobs/new">求人登録</a>
+	</p>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>企業名</th>
+            <th>職種</th>
+            <th>勤務地</th>
+            <th>雇用形態</th>
+            <th>給与</th>
+        </tr>
+
+        <tr th:each="job : ${jobs}">
+            <td th:text="${job.id}"></td>
+            <td th:text="${job.companyName}"></td>
+            <td th:text="${job.jobTitle}"></td>
+            <td th:text="${job.location}"></td>
+            <td th:text="${job.employmentType}"></td>
+            <td th:text="${job.salary}"></td>
+        </tr>
+    </table>
+</body>
+</html>
