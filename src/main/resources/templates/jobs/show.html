@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>求人詳細</title>
+</head>
+<body>
+
+<h1>求人詳細</h1>
+
+<p>企業名：<span th:text="${job.companyName}"></span></p>
+
+<p>職種：<span th:text="${job.jobTitle}"></span></p>
+
+<p>勤務地：<span th:text="${job.location}"></span></p>
+
+<p>雇用形態：<span th:text="${job.employmentType}"></span></p>
+
+<p>給与：<span th:text="${job.salary}"></span></p>
+
+<p>
+    <a href="/jobs">一覧へ戻る</a>
+</p>
+
+<p>
+    <a th:href="@{/jobs/{id}/edit(id=${job.id})}">
+        編集
+    </a>
+</p>
+
+<form th:action="@{/jobs/{id}/delete(id=${job.id})}" method="post">
+    <button type="submit" onclick="return confirm('本当に削除しますか？');">
+        削除
+    </button>
+</form>
+
+</body>
+</html>

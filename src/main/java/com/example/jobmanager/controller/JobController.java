@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.jobmanager.entity.Job;
@@ -36,4 +37,45 @@ public class JobController {
         return "redirect:/jobs";
     }
     
+    @GetMapping("/jobs/{id}")
+    public String show(@PathVariable Long id, Model model) {
+
+        Job job = jobRepository.findById(id)
+                .orElseThrow();
+
+        model.addAttribute("job", job);
+
+        return "jobs/show";
+    }
+    
+    @GetMapping("/jobs/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+
+        Job job = jobRepository.findById(id)
+                .orElseThrow();
+
+        model.addAttribute("job", job);
+
+        return "jobs/edit";
+    }
+    
+    @PostMapping("/jobs/{id}")
+    public String update(
+            @PathVariable Long id,
+            @ModelAttribute Job job) {
+
+        job.setId(id);
+
+        jobRepository.save(job);
+
+        return "redirect:/jobs/" + id;
+    }
+    
+    @PostMapping("/jobs/{id}/delete")
+    public String delete(@PathVariable Long id) {
+
+        jobRepository.deleteById(id);
+
+        return "redirect:/jobs";
+    }
 }
