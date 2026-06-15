@@ -45,6 +45,23 @@
 
 ![求人検索](screenshots/job-search.png)
 
+## ER図
+
+```mermaid
+erDiagram
+    JOB {
+        BIGINT id PK
+        VARCHAR company_name
+        VARCHAR job_title
+        VARCHAR location
+        VARCHAR employment_type
+        VARCHAR salary
+        TEXT description
+        TEXT required_skills
+        DATE posted_date
+    }
+```
+
 ## 今後の追加予定
 
 - ページング機能
