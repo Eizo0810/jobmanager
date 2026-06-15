@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public String handleAccessDeniedException() {
+	    return "error/403";
+	}
 
     @ExceptionHandler(JobNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

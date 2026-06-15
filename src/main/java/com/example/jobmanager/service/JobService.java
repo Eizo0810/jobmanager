@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.jobmanager.entity.AppUser;
 import com.example.jobmanager.entity.Job;
-import com.example.jobmanager.exception.JobNotFoundException;
+import com.example.jobmanager.exception.AccessDeniedException;
 import com.example.jobmanager.repository.JobRepository;
 
 @Service
@@ -67,6 +67,6 @@ public class JobService {
     
     public Job findByIdAndUser(Long id, AppUser user) {
         return jobRepository.findByIdAndUser(id, user)
-                .orElseThrow(JobNotFoundException::new);
+                .orElseThrow(AccessDeniedException::new);
     }
 }
