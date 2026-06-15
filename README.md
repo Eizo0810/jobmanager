@@ -7,6 +7,26 @@
 求職者支援訓練向けの求人管理システムです。  
 求人情報の登録・検索・編集・削除を行えます。
 
+## 特徴
+
+本アプリケーションは、求人情報をユーザーごとに管理できる業務系Webアプリケーションです。  
+Spring SecurityによるDB認証、ユーザーごとの求人管理、検索・ソート・ページング、Docker Composeによる環境構築、GitHub Actionsによる自動テストに対応しています。
+
+## テスト・CI
+
+JUnit / Mockito によるService層の単体テストを実装しています。  
+また、GitHub Actionsにより、mainブランチへのpush時に自動でテストが実行されます。
+
+## ポートフォリオとしてのポイント
+
+- Spring Bootを用いたMVC構成
+- Controller / Service / Repository のレイヤ分離
+- Spring SecurityによるDB認証
+- BCryptによるパスワードハッシュ化
+- ログインユーザーごとの求人データ管理
+- Docker Composeによる環境再現
+- GitHub Actionsによる自動テスト
+
 ## 使用技術
 
 - Java 21
