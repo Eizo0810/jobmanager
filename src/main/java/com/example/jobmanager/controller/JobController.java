@@ -55,6 +55,7 @@ public class JobController {
 	    model.addAttribute("jobTitle", jobTitle);
 	    model.addAttribute("location", location);
 	    model.addAttribute("sort", sort);
+	    model.addAttribute("username", principal.getName());
 
 	    return "jobs/index";
 	}
