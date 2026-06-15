@@ -118,9 +118,19 @@ http://localhost:8080/login
 パスワード：password
 ```
 
+### Docker版で確認できること
+
+- ユーザー登録
+- ログイン / ログアウト
+- 求人登録
+- 求人一覧表示
+- 求人検索
+- 求人編集
+- 求人削除
+- PostgreSQLコンテナへのデータ保存
+
 ### 停止
 
 ```bash
 docker compose down
 ```
-
