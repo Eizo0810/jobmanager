@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -33,6 +35,10 @@ public class Job {
     private String description;
     private String requiredSkills;
     private LocalDate postedDate;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 
     // getter / setter
     public Long getId() {
@@ -105,5 +111,13 @@ public class Job {
 
     public void setPostedDate(LocalDate postedDate) {
         this.postedDate = postedDate;
+    }
+    
+    public AppUser getUser() {
+        return user;
+    }
+
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 }

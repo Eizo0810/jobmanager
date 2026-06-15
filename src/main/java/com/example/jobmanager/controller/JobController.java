@@ -1,5 +1,7 @@
 package com.example.jobmanager.controller;
 
+import java.security.Principal;
+
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -15,15 +17,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.jobmanager.entity.AppUser;
 import com.example.jobmanager.entity.Job;
+import com.example.jobmanager.repository.AppUserRepository;
 import com.example.jobmanager.service.JobService;
 @Controller
 public class JobController {
 
 	private final JobService jobService;
+	private final AppUserRepository appUserRepository;
 
-	public JobController(JobService jobService) {
-	    this.jobService = jobService;
+	public JobController(JobService jobService,
+            AppUserRepository appUserRepository) {
+			this.jobService = jobService;
+			this.appUserRepository = appUserRepository;
 	}
 
 	@GetMapping("/jobs")
@@ -75,11 +82,17 @@ public class JobController {
   
     @PostMapping("/jobs")
     public String create(@Valid @ModelAttribute Job job,
-                         BindingResult bindingResult) {
+                         BindingResult bindingResult,
+                         Principal principal) {
 
         if (bindingResult.hasErrors()) {
             return "jobs/new";
         }
+
+        AppUser user = appUserRepository.findByUsername(principal.getName())
+                .orElseThrow();
+
+        job.setUser(user);
 
         jobService.save(job);
         return "redirect:/jobs";

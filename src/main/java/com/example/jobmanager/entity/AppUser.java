@@ -1,9 +1,13 @@
 package com.example.jobmanager.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +25,9 @@ public class AppUser {
     private String role;
 
     private boolean enabled = true;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Job> jobs = new ArrayList<>();
 
     // getter / setter
     public Long getId() {
@@ -61,5 +68,13 @@ public class AppUser {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
     }
 }
