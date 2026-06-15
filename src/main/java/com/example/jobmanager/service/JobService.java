@@ -63,4 +63,9 @@ public class JobService {
                         pageable
                 );
     }
+    
+    public Job findByIdAndUser(Long id, AppUser user) {
+        return jobRepository.findByIdAndUser(id, user)
+                .orElseThrow();
+    }
 }

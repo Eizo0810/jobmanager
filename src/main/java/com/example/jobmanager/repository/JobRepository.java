@@ -1,5 +1,7 @@
 package com.example.jobmanager.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +25,6 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             String location,
             Pageable pageable
     );
+    
+    Optional<Job> findByIdAndUser(Long id, AppUser user);
 }

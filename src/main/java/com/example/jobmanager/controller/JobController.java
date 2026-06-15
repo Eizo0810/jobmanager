@@ -66,17 +66,28 @@ public class JobController {
     }
     
     @GetMapping("/jobs/{id}")
-    public String show(@PathVariable Long id, Model model) {
-        Job job = jobService.findById(id);
+    public String show(@PathVariable Long id,
+                       Model model,
+                       Principal principal) {
+
+        AppUser user = appUserRepository.findByUsername(principal.getName())
+                .orElseThrow();
+
+        Job job = jobService.findByIdAndUser(id, user);
 
         model.addAttribute("job", job);
         return "jobs/show";
     }
     
     @GetMapping("/jobs/{id}/edit")
-    public String editForm(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable Long id,
+                           Model model,
+                           Principal principal) {
 
-        Job job = jobService.findById(id);
+        AppUser user = appUserRepository.findByUsername(principal.getName())
+                .orElseThrow();
+
+        Job job = jobService.findByIdAndUser(id, user);
 
         model.addAttribute("job", job);
 
@@ -104,23 +115,36 @@ public class JobController {
     @PostMapping("/jobs/{id}")
     public String update(@PathVariable Long id,
                          @Valid @ModelAttribute Job job,
-                         BindingResult bindingResult) {
+                         BindingResult bindingResult,
+                         Principal principal) {
 
         if (bindingResult.hasErrors()) {
             return "jobs/edit";
         }
 
-        job.setId(id);
+        AppUser user = appUserRepository.findByUsername(principal.getName())
+                .orElseThrow();
+
+        Job existingJob = jobService.findByIdAndUser(id, user);
+
+        job.setId(existingJob.getId());
+        job.setUser(user);
+
         jobService.save(job);
 
         return "redirect:/jobs/" + id;
     }
     
-
     @PostMapping("/jobs/{id}/delete")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id,
+                         Principal principal) {
 
-    	jobService.deleteById(id);
+        AppUser user = appUserRepository.findByUsername(principal.getName())
+                .orElseThrow();
+
+        Job job = jobService.findByIdAndUser(id, user);
+
+        jobService.deleteById(job.getId());
 
         return "redirect:/jobs";
     }
