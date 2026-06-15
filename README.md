@@ -29,7 +29,21 @@
 
 ## 画面イメージ
 
-※後でスクリーンショットを追加予定
+### 求人一覧
+
+![求人一覧](screenshots/job-list.png)
+
+### 求人登録
+
+![求人登録](screenshots/job-create.png)
+
+### 求人詳細
+
+![求人詳細](screenshots/job-detail.png)
+
+### 求人検索
+
+![求人検索](screenshots/job-search.png)
 
 ## 今後の追加予定
 
