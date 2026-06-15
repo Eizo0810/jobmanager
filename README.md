@@ -99,6 +99,15 @@ flowchart LR
 
 ## Docker起動方法
 
+## デプロイについて
+
+本アプリケーションは、課金リスクを避けるため現時点ではAWS等のクラウド環境には公開していません。
+
+代わりに、Docker Composeを使用することで、ローカル環境でSpring BootアプリケーションとPostgreSQLをまとめて起動できます。
+
+```bash
+docker compose up --build
+
 ### 起動
 
 ```bash
