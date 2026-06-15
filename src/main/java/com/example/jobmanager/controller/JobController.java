@@ -40,12 +40,15 @@ public class JobController {
 	        @RequestParam(required = false, defaultValue = "") String location,
 	        @RequestParam(required = false, defaultValue = "0") int page,
 	        @RequestParam(required = false, defaultValue = "id") String sort,
-	        Model model) {
+	        Model model,
+	        Principal principal) {
+		
+		AppUser user = appUserRepository.findByUsername(principal.getName()).orElseThrow();
 
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sort).ascending());
 
-	    Page<Job> jobPage = jobService.search(companyName, jobTitle, location, pageable);
-
+		Page<Job> jobPage = jobService.searchByUser( user, companyName, jobTitle,location, pageable);
+	      
 	    model.addAttribute("jobs", jobPage.getContent());
 	    model.addAttribute("jobPage", jobPage);
 	    model.addAttribute("companyName", companyName);

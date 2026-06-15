@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.jobmanager.entity.AppUser;
 import com.example.jobmanager.entity.Job;
 import com.example.jobmanager.repository.JobRepository;
 
@@ -39,6 +40,23 @@ public class JobService {
     public Page<Job> search(String companyName, String jobTitle, String location, Pageable pageable) {
         return jobRepository
                 .findByCompanyNameContainingAndJobTitleContainingAndLocationContaining(
+                        companyName,
+                        jobTitle,
+                        location,
+                        pageable
+                );
+    }
+    
+    public Page<Job> searchByUser(
+            AppUser user,
+            String companyName,
+            String jobTitle,
+            String location,
+            Pageable pageable) {
+
+        return jobRepository
+                .findByUserAndCompanyNameContainingAndJobTitleContainingAndLocationContaining(
+                        user,
                         companyName,
                         jobTitle,
                         location,
