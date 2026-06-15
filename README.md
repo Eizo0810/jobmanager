@@ -97,6 +97,27 @@ flowchart LR
     F --> G
 ```
 
+## Docker起動
+
+### 起動
+
+```bash
+docker compose up --build
+```
+
+### アクセス
+
+```text
+http://localhost:8080/login
+```
+
+### 初期ユーザー
+
+ユーザー名：admin
+
+パスワード：password
+
+
 ## 今後の追加予定
 
 - ページング機能
