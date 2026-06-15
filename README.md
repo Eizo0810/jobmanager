@@ -75,11 +75,8 @@ erDiagram
         DATE posted_date
         BIGINT user_id FK
     }
+```
 
-
-### システム構成図も更新
-
-```md
 ## システム構成図
 
 ```mermaid
@@ -98,6 +95,7 @@ flowchart LR
     D --> E
     E --> F
     F --> G
+```
 
 ## 今後の追加予定
 
