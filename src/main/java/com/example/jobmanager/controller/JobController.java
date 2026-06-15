@@ -1,5 +1,7 @@
 package com.example.jobmanager.controller;
 
+import java.util.List;
+
 import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -24,20 +26,22 @@ public class JobController {
 
     @GetMapping("/jobs")
     public String index(
-            @RequestParam(required = false)
-            String keyword,
+            @RequestParam(required = false, defaultValue = "") String companyName,
+            @RequestParam(required = false, defaultValue = "") String jobTitle,
+            @RequestParam(required = false, defaultValue = "") String location,
             Model model) {
 
-        if (keyword == null || keyword.isBlank()) {
-            model.addAttribute("jobs",
-                    jobRepository.findAll());
-        } else {
-            model.addAttribute("jobs",
-                    jobRepository
-                    .findByCompanyNameContaining(keyword));
-        }
+        List<Job> jobs = jobRepository
+                .findByCompanyNameContainingAndJobTitleContainingAndLocationContaining(
+                        companyName,
+                        jobTitle,
+                        location
+                );
 
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("jobs", jobs);
+        model.addAttribute("companyName", companyName);
+        model.addAttribute("jobTitle", jobTitle);
+        model.addAttribute("location", location);
 
         return "jobs/index";
     }

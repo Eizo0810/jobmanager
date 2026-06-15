@@ -8,6 +8,9 @@ import com.example.jobmanager.entity.Job;
 
 public interface JobRepository extends JpaRepository<Job, Long> {
 
-	 List<Job> findByCompanyNameContaining(String keyword);
-
+    List<Job> findByCompanyNameContainingAndJobTitleContainingAndLocationContaining(
+            String companyName,
+            String jobTitle,
+            String location
+    );
 }
