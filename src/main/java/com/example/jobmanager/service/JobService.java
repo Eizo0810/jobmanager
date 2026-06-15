@@ -2,6 +2,8 @@ package com.example.jobmanager.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.jobmanager.entity.Job;
@@ -20,14 +22,6 @@ public class JobService {
         return jobRepository.findAll();
     }
 
-    public List<Job> search(String companyName, String jobTitle, String location) {
-        return jobRepository
-                .findByCompanyNameContainingAndJobTitleContainingAndLocationContaining(
-                        companyName,
-                        jobTitle,
-                        location
-                );
-    }
 
     public Job findById(Long id) {
         return jobRepository.findById(id)
@@ -40,5 +34,15 @@ public class JobService {
 
     public void deleteById(Long id) {
         jobRepository.deleteById(id);
+    }
+    
+    public Page<Job> search(String companyName, String jobTitle, String location, Pageable pageable) {
+        return jobRepository
+                .findByCompanyNameContainingAndJobTitleContainingAndLocationContaining(
+                        companyName,
+                        jobTitle,
+                        location,
+                        pageable
+                );
     }
 }

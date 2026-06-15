@@ -99,6 +99,32 @@
 		</tr>
     </table>
 
+	<nav th:if="${jobPage.totalPages > 1}">
+	    <ul class="pagination">
+	        <li class="page-item" th:classappend="${jobPage.first} ? 'disabled'">
+	            <a class="page-link"
+	               th:href="@{/jobs(page=${jobPage.number - 1}, companyName=${companyName}, jobTitle=${jobTitle}, location=${location})}">
+	                前へ
+	            </a>
+	        </li>
+
+	        <li class="page-item"
+	            th:each="i : ${#numbers.sequence(0, jobPage.totalPages - 1)}"
+	            th:classappend="${i == jobPage.number} ? 'active'">
+	            <a class="page-link"
+	               th:href="@{/jobs(page=${i}, companyName=${companyName}, jobTitle=${jobTitle}, location=${location})}"
+	               th:text="${i + 1}">
+	            </a>
+	        </li>
+
+	        <li class="page-item" th:classappend="${jobPage.last} ? 'disabled'">
+	            <a class="page-link"
+	               th:href="@{/jobs(page=${jobPage.number + 1}, companyName=${companyName}, jobTitle=${jobTitle}, location=${location})}">
+	                次へ
+	            </a>
+	        </li>
+	    </ul>
+	</nav>
 </div>
 </body>
 </html>

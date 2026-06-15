@@ -1,9 +1,10 @@
 package com.example.jobmanager.controller;
 
-import java.util.List;
-
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,22 +25,26 @@ public class JobController {
 	    this.jobService = jobService;
 	}
 
-    @GetMapping("/jobs")
-    public String index(
-            @RequestParam(required = false, defaultValue = "") String companyName,
-            @RequestParam(required = false, defaultValue = "") String jobTitle,
-            @RequestParam(required = false, defaultValue = "") String location,
-            Model model) {
+	@GetMapping("/jobs")
+	public String index(
+	        @RequestParam(required = false, defaultValue = "") String companyName,
+	        @RequestParam(required = false, defaultValue = "") String jobTitle,
+	        @RequestParam(required = false, defaultValue = "") String location,
+	        @RequestParam(required = false, defaultValue = "0") int page,
+	        Model model) {
 
-    	List<Job> jobs = jobService.search(companyName, jobTitle, location);
+	    Pageable pageable = PageRequest.of(page, 10);
 
-        model.addAttribute("jobs", jobs);
-        model.addAttribute("companyName", companyName);
-        model.addAttribute("jobTitle", jobTitle);
-        model.addAttribute("location", location);
+	    Page<Job> jobPage = jobService.search(companyName, jobTitle, location, pageable);
 
-        return "jobs/index";
-    }
+	    model.addAttribute("jobs", jobPage.getContent());
+	    model.addAttribute("jobPage", jobPage);
+	    model.addAttribute("companyName", companyName);
+	    model.addAttribute("jobTitle", jobTitle);
+	    model.addAttribute("location", location);
+
+	    return "jobs/index";
+	}
     
     @GetMapping("/jobs/new")
     public String createForm(Model model) {
