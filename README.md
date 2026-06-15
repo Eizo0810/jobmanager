@@ -62,6 +62,27 @@ erDiagram
     }
 ```
 
+## システム構成図
+
+```mermaid
+flowchart LR
+
+    A[ユーザー]
+
+    B[Web Browser]
+
+    C[Spring Boot<br>Controller]
+
+    D[Spring Data JPA<br>Repository]
+
+    E[(PostgreSQL)]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```
+
 ## 今後の追加予定
 
 - ページング機能
