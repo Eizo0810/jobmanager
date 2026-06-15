@@ -26,6 +26,10 @@
 - 求人削除
 - バリデーション
 - 企業名・職種・勤務地による複合検索
+- ユーザー登録
+- ログイン / ログアウト
+- ログインユーザーごとの求人管理
+- 他ユーザー求人へのアクセス制限
 
 ## 画面イメージ
 
@@ -49,6 +53,16 @@
 
 ```mermaid
 erDiagram
+    APP_USER ||--o{ JOB : owns
+
+    APP_USER {
+        BIGINT id PK
+        VARCHAR username
+        VARCHAR password
+        VARCHAR role
+        BOOLEAN enabled
+    }
+
     JOB {
         BIGINT id PK
         VARCHAR company_name
@@ -59,29 +73,31 @@ erDiagram
         TEXT description
         TEXT required_skills
         DATE posted_date
+        BIGINT user_id FK
     }
-```
 
+
+### システム構成図も更新
+
+```md
 ## システム構成図
 
 ```mermaid
 flowchart LR
-
     A[ユーザー]
-
     B[Web Browser]
-
-    C[Spring Boot<br>Controller]
-
-    D[Spring Data JPA<br>Repository]
-
-    E[(PostgreSQL)]
+    C[Spring Security]
+    D[Spring Boot Controller]
+    E[Service]
+    F[Spring Data JPA Repository]
+    G[(PostgreSQL)]
 
     A --> B
     B --> C
     C --> D
     D --> E
-```
+    E --> F
+    F --> G
 
 ## 今後の追加予定
 
