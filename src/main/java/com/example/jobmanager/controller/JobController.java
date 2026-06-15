@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.jobmanager.entity.Job;
-import com.example.jobmanager.repository.JobRepository;
+import com.example.jobmanager.service.JobService;
 @Controller
 public class JobController {
 
-    private final JobRepository jobRepository;
+	private final JobService jobService;
 
-    public JobController(JobRepository jobRepository) {
-        this.jobRepository = jobRepository;
-    }
+	public JobController(JobService jobService) {
+	    this.jobService = jobService;
+	}
 
     @GetMapping("/jobs")
     public String index(
@@ -31,12 +31,7 @@ public class JobController {
             @RequestParam(required = false, defaultValue = "") String location,
             Model model) {
 
-        List<Job> jobs = jobRepository
-                .findByCompanyNameContainingAndJobTitleContainingAndLocationContaining(
-                        companyName,
-                        jobTitle,
-                        location
-                );
+    	List<Job> jobs = jobService.search(companyName, jobTitle, location);
 
         model.addAttribute("jobs", jobs);
         model.addAttribute("companyName", companyName);
@@ -54,8 +49,7 @@ public class JobController {
     
     @GetMapping("/jobs/{id}")
     public String show(@PathVariable Long id, Model model) {
-        Job job = jobRepository.findById(id)
-                .orElseThrow();
+        Job job = jobService.findById(id);
 
         model.addAttribute("job", job);
         return "jobs/show";
@@ -64,8 +58,7 @@ public class JobController {
     @GetMapping("/jobs/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
 
-        Job job = jobRepository.findById(id)
-                .orElseThrow();
+        Job job = jobService.findById(id);
 
         model.addAttribute("job", job);
 
@@ -80,7 +73,7 @@ public class JobController {
             return "jobs/new";
         }
 
-        jobRepository.save(job);
+        jobService.save(job);
         return "redirect:/jobs";
     }
     
@@ -94,7 +87,7 @@ public class JobController {
         }
 
         job.setId(id);
-        jobRepository.save(job);
+        jobService.save(job);
 
         return "redirect:/jobs/" + id;
     }
@@ -103,7 +96,7 @@ public class JobController {
     @PostMapping("/jobs/{id}/delete")
     public String delete(@PathVariable Long id) {
 
-        jobRepository.deleteById(id);
+    	jobService.deleteById(id);
 
         return "redirect:/jobs";
     }
