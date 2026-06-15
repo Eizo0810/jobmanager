@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,9 +32,10 @@ public class JobController {
 	        @RequestParam(required = false, defaultValue = "") String jobTitle,
 	        @RequestParam(required = false, defaultValue = "") String location,
 	        @RequestParam(required = false, defaultValue = "0") int page,
+	        @RequestParam(required = false, defaultValue = "id") String sort,
 	        Model model) {
 
-	    Pageable pageable = PageRequest.of(page, 10);
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sort).ascending());
 
 	    Page<Job> jobPage = jobService.search(companyName, jobTitle, location, pageable);
 
@@ -42,6 +44,7 @@ public class JobController {
 	    model.addAttribute("companyName", companyName);
 	    model.addAttribute("jobTitle", jobTitle);
 	    model.addAttribute("location", location);
+	    model.addAttribute("sort", sort);
 
 	    return "jobs/index";
 	}
